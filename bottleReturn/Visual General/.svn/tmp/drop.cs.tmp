@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+
+namespace bottleReturn
+{
+    class drop
+    {
+        Vector2 location;
+        Texture2D dropTexture;
+        SoundEffectInstance currentSound;
+        float soundPan;
+        public bool breakable;
+
+        public drop(Texture2D objectTexure, Vector2 location, SoundEffect sound, bool breakable)
+        {
+            this.location = location;
+            this.dropTexture = objectTexure;
+            currentSound = sound.CreateInstance();
+            this.breakable = breakable;
+        }
+
+        public Vector2 getLocation()
+        {
+            return location;
+        }
+
+        public void Update(GameTime gameTime, Vector2 speed)
+        {
+            location.Y += speed.Y;
+            soundPan = ((float)(location.X - 520) / 520);
+            soundPan = MathHelper.Clamp(soundPan, -1.0f, 1.0f);
+            currentSound.Pan = soundPan;
+        }
+
+        public void Draw(SpriteBatch sprBatch)
+        {
+            sprBatch.Draw(dropTexture, location, Color.White);
+        }
+
+        public void PlaySound()
+        {
+            if (currentSound.State != SoundState.Playing)
+            {
+                currentSound.Play();
+            }
+        }
+    }
+}

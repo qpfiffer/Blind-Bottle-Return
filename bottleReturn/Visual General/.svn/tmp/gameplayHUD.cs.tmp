@@ -1,0 +1,196 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+using Sprites;
+
+namespace bottleReturn
+{
+    #region healthBar class
+    class Bar : Sprite
+    {
+        private Rectangle cliptangle;
+        private Rectangle posTangle;
+
+        public Bar(Texture2D texture, Vector2 pos, Rectangle cliptangle): 
+            base(texture, pos)
+        {
+            this.posTangle = cliptangle;
+            posTangle.X = (int)pos.X;
+            posTangle.Y = (int)pos.Y;
+            this.cliptangle = cliptangle;
+        }
+
+        public override void Draw(SpriteBatch sprBatch)
+        {
+            sprBatch.Draw(mImage, posTangle, cliptangle, Color.White);
+        }
+
+        public void DrawFlipped(SpriteBatch sprBatch)
+        {
+            //sprBatch.Draw(mImage, posTangle, cliptangle, Color.White, 0, new Vector2(cliptangle.X, cliptangle.Y),
+            //                SpriteEffects.FlipHorizontally, 1);
+            sprBatch.Draw(mImage, posTangle, cliptangle, Color.White, 0, new Vector2(cliptangle.X, cliptangle.Y),
+                            SpriteEffects.FlipHorizontally, 1);
+        }
+
+        public void setWidth(int newWidth)
+        {
+            cliptangle.Width = newWidth;
+            posTangle.Width = newWidth;
+        }
+    }
+    #endregion
+
+    class gameplayHUD
+    {
+        // Background images
+        Sprite[] background;
+        Vector2[] statLoc;
+        int statRectWidth;
+        int statRectHeight;
+        SpriteFont fntAttribs;
+        character Player;
+        Texture2D smallBeer;
+        int beerWidth;
+        int beerHeight;
+        Vector2[] inventoryLoc;
+
+        Bar intoxBar;
+        Bar odorBar;
+        Bar energy;
+        Bar wantedLevel;
+
+        Rectangle portraitRect;
+        Texture2D portraitTexture;
+
+        /// <summary>
+        /// Creates a new HUD for GamePlay Screen
+        /// </summary>
+        /// <param name="horizontalBar"></param>
+        /// <param name="verticalBar"></param>
+        /// <param name="powerBar1"></param>
+        /// <param name="powerBar2"></param>
+        /// <param name="statsFont"></param>
+        /// <param name="screenWidth"></param>
+        /// <param name="screenHeight"></param>
+        /// <param name="Player"></param>
+        public gameplayHUD(Texture2D horizontalBar, Texture2D verticalBar, Texture2D powerBar1, Texture2D powerBar2,
+                            Texture2D powerBar3, Texture2D smallBeer, Texture2D portraitTexture,
+                            SpriteFont statsFont, int screenWidth, int screenHeight, character Player)
+        {
+            beerHeight = (int)(horizontalBar.Height * 0.75);
+            beerWidth = 12;
+            this.Player = Player;
+            this.smallBeer = smallBeer;
+            fntAttribs = statsFont;
+            #region BACKGROUND RECTANGLE ARRAY INITIALIZATION
+            background = new Sprite[3];
+            background[0] = new Sprite(horizontalBar, Vector2.Zero);
+            background[1] = new Sprite(horizontalBar, new Vector2(0, screenHeight - horizontalBar.Height));
+            background[2] = new Sprite(verticalBar, new Vector2(screenWidth - verticalBar.Width, 0));
+            #endregion
+            #region STATS RECTANGLE ARRAY INITIALIZATION
+            statRectWidth = ((horizontalBar.Width - verticalBar.Width) / 2) - 10;
+            statRectHeight = (int)(horizontalBar.Height * 0.75);
+
+            intoxBar = new Bar(powerBar1, new Vector2(0, 8),
+                new Rectangle(0, 0, statRectWidth, statRectHeight));
+
+            odorBar = new Bar(powerBar3, new Vector2((((horizontalBar.Width - verticalBar.Width) / 2) + 10), 8),
+                new Rectangle(0, 0, statRectWidth, statRectHeight));
+
+            energy = new Bar(powerBar2, new Vector2(0, (screenHeight - horizontalBar.Height + 8)),
+                new Rectangle(0, 0, statRectWidth, statRectHeight));
+
+            wantedLevel = new Bar(powerBar1, new Vector2((((horizontalBar.Width - verticalBar.Width) / 2) + 10),
+                (screenHeight - horizontalBar.Height + 8)),
+                new Rectangle(0, 0, statRectWidth, statRectHeight));
+            #endregion
+            #region STAT BARS VECTOR2 ARRAY INITIALIZATION
+            statLoc = new Vector2[6];
+            for (int index = 0; index < 2; index++)
+            {
+                statLoc[index].X = (index * ((horizontalBar.Width - verticalBar.Width) / 2) + 10) + 4;
+                statLoc[index].Y = 10;
+            }
+            for (int index = 0; index < 2; index++)
+            {
+                statLoc[index + 2].X = (index * ((horizontalBar.Width - verticalBar.Width) / 2) + 10) + 4;
+                statLoc[index + 2].Y = (screenHeight - horizontalBar.Height + 8) + 2;
+            }
+            #endregion
+
+            #region CHARACTER PORTRAIT INITIALIZATION
+            this.portraitTexture = portraitTexture;
+            portraitRect = new Rectangle(screenWidth - verticalBar.Width + 8, 8, 224, 268);
+            #endregion
+            #region CHARACTER INVENTORY INITIALIZATION
+            inventoryLoc = new Vector2[6];
+            for (int index = 0; index < 6; index++)
+            {
+                inventoryLoc[index].X = (screenWidth - verticalBar.Width + 8);
+                inventoryLoc[index].Y = 268 + 8 + (index * 20);
+            }
+            #endregion
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            intoxBar.setWidth((int)(statRectWidth * (Player.intoxicationLevel / 100)));
+            odorBar.setWidth((int)(statRectWidth * (Player.odorLevel / 100)));
+            energy.setWidth((int)(statRectWidth * (Player.energy / 100)));
+            wantedLevel.setWidth((int)(statRectWidth * (Player.wantedLevel / 10)));
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+                //I'm a shitty Artist...Need help making this look better
+                //possibly changing placement/shape of HUD
+            
+                //Draw Background for HUD
+            foreach (Sprite index in background)
+                index.Draw(spriteBatch);
+
+                //Draw Status Bars and Values
+            for (int index = 0; index < (int)(Player.intoxicationLevel / 2.35); index++)
+            {
+                spriteBatch.Draw(smallBeer, new Rectangle((index * beerWidth) + 2, 8, 12, beerHeight), Color.LightGray);
+            }
+            for (int index = (int)(Player.intoxicationLevel / 2.35); index < 42; index++)
+            {
+                spriteBatch.Draw(smallBeer, new Rectangle((index * beerWidth) + 2, 8, 12, beerHeight), Color.Gray);
+            }
+            spriteBatch.DrawString(fntAttribs, "Intoxication Level: " + Player.intoxicationLevel.ToString(), statLoc[0], Color.White);
+
+            odorBar.Draw(spriteBatch);
+            spriteBatch.DrawString(fntAttribs, "Odor Level: " + Player.odorLevel.ToString(), statLoc[1], Color.WhiteSmoke);
+
+            energy.Draw(spriteBatch);
+            spriteBatch.DrawString(fntAttribs, "Energy: " + Player.energy.ToString(), statLoc[2], Color.Black);
+
+            wantedLevel.DrawFlipped(spriteBatch);
+            spriteBatch.DrawString(fntAttribs, "Wanted Level: " + Player.wantedLevel.ToString(), statLoc[3], Color.WhiteSmoke);
+
+            #region PORTRAIT and DATA
+
+            spriteBatch.Draw(portraitTexture, portraitRect, Color.White);
+            spriteBatch.DrawString(fntAttribs, "Bottles Remaining: " + Player.INVENTORY.BOTTLES.Count.ToString(),
+                                        inventoryLoc[0], Color.White);
+            spriteBatch.DrawString(fntAttribs, "Cash on Hand: $ " + Player.cash.ToString(),
+                                        inventoryLoc[1], Color.White);
+            spriteBatch.DrawString(fntAttribs, "Capacity: " + Player.carryingCapacity.ToString(),
+                                        inventoryLoc[2], Color.White);
+            spriteBatch.DrawString(fntAttribs, "Tickets: " + Player.VOUCHERS.Count.ToString(),
+                                        inventoryLoc[3], Color.White);
+            spriteBatch.DrawString(fntAttribs, "Tickets Value: $ " + Player.ticketsValue.ToString(),
+                                        inventoryLoc[4], Color.White);
+            spriteBatch.DrawString(fntAttribs, "Score: " + Player.score + " Million",
+                                        inventoryLoc[5], Color.Red);
+            #endregion
+        }
+    }
+}

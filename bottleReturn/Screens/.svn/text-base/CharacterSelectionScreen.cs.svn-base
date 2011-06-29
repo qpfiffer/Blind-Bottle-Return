@@ -1,0 +1,502 @@
+﻿#region File Description
+//-----------------------------------------------------------------------------
+// CharacterSelectionScreen.cs
+//
+// Microsoft XNA Community Game Platform
+// Copyright (C) Microsoft Corporation. All rights reserved.
+//-----------------------------------------------------------------------------
+#endregion
+
+#region Using Statements
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Sprites;
+#endregion
+
+namespace bottleReturn
+{
+    /// <summary>
+    /// This is the first screen to be loaded when the player begins a new game.
+    /// From here, the player will choose from one of four character types, each
+    /// having different attributes that affect gameplay.
+    /// </summary>
+    class CharacterSelectionScreen : GameScreen
+    {
+        #region Private Classes
+        private class Selector
+        {
+            public enum direction { Left = -1, Right = 1 };
+            public int character = 0;
+            private Texture2D txCart;
+            private SoundEffect seRollingCart;
+            private bool sound;
+
+            public Selector(Texture2D cart, SoundEffect rollingCart, bool sound_enable)
+            {
+                txCart = cart;
+                seRollingCart = rollingCart;
+                sound = sound_enable;
+            }
+
+            public void Draw(SpriteBatch spriteBatch)
+            {
+                spriteBatch.Draw(txCart, new Rectangle(5 + character * 308, 407, 150, 100), Color.White);
+            }
+
+            public void Move(direction dir)
+            {
+                character += (int)dir;
+                if (character < 0)
+                    character = 3;
+                else if (character > 3)
+                    character = 0;
+                //if (sound)
+                //    seRollingCart.Play(0.5f, 0, 0);
+            }
+        }
+
+        private class Car
+        {
+            private Sprite sprCar;
+            private Sprite sprFront;
+            private Sprite sprBack;
+            private Vector2 frontWheelOffset;
+            private Vector2 backWheelOffset;
+            private float rotation = 0f;
+            SpriteEffects flip = SpriteEffects.None;
+            float layer = 1;
+            SoundEffectInstance currentSound;
+            float soundPan;
+
+            public Vector2 Velocity
+            {
+                get { return sprCar.Velocity; }
+            }
+
+            public Car(Texture2D car, Texture2D wheel, Vector2 pos, Vector2 vel, int carElement, SoundEffect sound)
+            {
+                #region Wheel Offset switch
+                switch (carElement)
+                {
+                    case 0:
+                        if (vel.X < 0)
+                        {
+                            frontWheelOffset = new Vector2(63, 114);
+                            backWheelOffset = new Vector2(362, 115);
+                        }
+                        else
+                        {
+                            frontWheelOffset = new Vector2(392, 114);
+                            backWheelOffset = new Vector2(94, 115);
+                        }
+                        break;
+                    case 1:
+                        if (vel.X < 0)
+                        {
+                            frontWheelOffset = new Vector2(69, 116);
+                            backWheelOffset = new Vector2(338, 116);
+                        }
+                        else
+                        {
+                            frontWheelOffset = new Vector2(330, 116);
+                            backWheelOffset = new Vector2(60, 116);
+                        }
+                        break;
+                    case 2:
+                        if (vel.X < 0)
+                        {
+                            frontWheelOffset = new Vector2(75, 84);
+                            backWheelOffset = new Vector2(361, 83);
+                        }
+                        else
+                        {
+                            frontWheelOffset = new Vector2(375, 83);
+                            backWheelOffset = new Vector2(96, 84);
+                        }
+                        break;
+                    case 3:
+                        if (vel.X < 0)
+                        {
+                            frontWheelOffset = new Vector2(76, 84);
+                            backWheelOffset = new Vector2(348, 84);
+                        }
+                        else
+                        {
+                            frontWheelOffset = new Vector2(375, 84);
+                            backWheelOffset = new Vector2(95, 84);
+                        }
+                        break;
+                    case 4:
+                    default:
+                        if (vel.X < 0)
+                        {
+                            frontWheelOffset = new Vector2(90, 96);
+                            backWheelOffset = new Vector2(372, 96);
+                        }
+                        else
+                        {
+                            frontWheelOffset = new Vector2(365, 96);
+                            backWheelOffset = new Vector2(85, 96);
+                        }
+                        break;
+                }
+                #endregion
+                sprCar = new Sprite(car, pos, vel);
+                sprFront = new Sprite(wheel, pos + frontWheelOffset, vel);
+                sprBack = new Sprite(wheel, pos + backWheelOffset, vel);
+                currentSound = sound.CreateInstance();
+            }
+
+            public void Update(GameTime gameTime)
+            {
+                sprCar.Update();
+                sprFront.Update();
+                sprBack.Update();
+                rotation = (rotation + (float)(2f * Math.PI) + (float)((6 * sprCar.Velocity.X) / (float)sprCar.Width)) % (float)(2 * Math.PI);
+                soundPan = ((float)(sprCar.X - 540) / 540);
+                soundPan = MathHelper.Clamp(soundPan, -1.0f, 1.0f);
+                currentSound.Pan = soundPan;
+            }
+
+            public void Draw(SpriteBatch sprBatch)
+            {
+                if (sprCar.Velocity.X > 0)
+                {
+                    flip = SpriteEffects.FlipHorizontally;
+                    layer = .5f;
+                }
+                sprCar.Draw(sprBatch, new Rectangle(), 0f, false, flip, layer);
+                sprFront.Draw(sprBatch, new Rectangle(sprFront.X, sprFront.Y, 75, 75), rotation, true, flip, layer);
+                sprBack.Draw(sprBatch, new Rectangle(sprBack.X, sprBack.Y, 75, 75), rotation, true, flip, layer);
+            }
+
+            public void PlaySound()
+            {
+                if (currentSound.State != SoundState.Playing)
+                    currentSound.Play();
+            }
+
+            public bool HasLeftTheScreen()
+            {
+                return ((sprCar.Velocity.X < 0 && sprCar.X < 0 - sprCar.Width)
+                        || (sprCar.Velocity.X > 0 && sprCar.X > 1280 - 200));
+            }
+        }
+        #endregion
+
+        #region fields
+
+        ContentManager content;
+        InputHandler input;
+        characterLIST AVAILABLE_CHARACTERS;
+
+        Texture2D txBackground;
+        Texture2D txDataPanel;
+        Texture2D txPowerBar;
+        Texture2D mouseCursor;
+
+        Texture2D txPoster;
+        Texture2D[] txFace = new Texture2D[4];
+        Selector selector;
+
+        List<Car> carList = new List<Car>();
+        Texture2D[] txCar = new Texture2D[5];
+        Texture2D[] txWheel = new Texture2D[4];
+        SoundEffect seDriveby;
+        SoundEffect seSelect;
+        int carTimer = 0;
+        int carDelay = 750; //ms
+
+        SpriteFont fntPoster;
+        SpriteFont fntAttribs;
+
+        float pauseAlpha;
+
+        #endregion
+
+        #region Initialization
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public CharacterSelectionScreen()
+        {
+            TransitionOnTime = TimeSpan.FromSeconds(1.0);
+            TransitionOffTime = TimeSpan.FromSeconds(.5);
+        }
+
+        public override void UnloadContent()
+        {
+            //this.content.Unload();
+        }
+
+        /// <summary>
+        /// Load visual/audio content for this screen
+        /// </summary>
+        public override void LoadContent()
+        {
+            content = ScreenManager.Game.Content;
+
+            txBackground = content.Load<Texture2D>("charSelect/kindaoverpass");
+            txPoster = content.Load<Texture2D>("charSelect/poster");
+            txFace[0] = content.Load<Texture2D>("charSelect/hobo1");
+            txFace[1] = content.Load<Texture2D>("charSelect/hobo2");
+            txFace[2] = content.Load<Texture2D>("charSelect/hobo3");
+            txFace[3] = content.Load<Texture2D>("charSelect/hobo4");
+            txDataPanel = content.Load<Texture2D>("charSelect/CharSelPanel");
+            txPowerBar = content.Load<Texture2D>("charSelect/PowerBar");
+            txCar[0] = content.Load<Texture2D>("charSelect/Car1");
+            txCar[1] = content.Load<Texture2D>("charSelect/Car2");
+            txCar[2] = content.Load<Texture2D>("charSelect/Car3");
+            txCar[3] = content.Load<Texture2D>("charSelect/Car4");
+            txCar[4] = content.Load<Texture2D>("charSelect/Car5");
+            txWheel[0] = content.Load<Texture2D>("charSelect/Wheel1");
+            txWheel[1] = content.Load<Texture2D>("charSelect/Wheel2");
+            txWheel[2] = content.Load<Texture2D>("charSelect/Wheel3");
+            txWheel[3] = content.Load<Texture2D>("charSelect/Wheel4");
+            mouseCursor = content.Load<Texture2D>("Cursor");
+            AVAILABLE_CHARACTERS = new characterLIST(txFace[0], txFace[1], txFace[2], txFace[3]);
+
+            fntPoster = ScreenManager.Font[(int)ScreenManager.fontStyle.poster20B];
+            fntAttribs = ScreenManager.Font[(int)ScreenManager.fontStyle.game14B];
+
+            seDriveby = content.Load<SoundEffect>("Sounds/driveby");
+            seSelect = content.Load<SoundEffect>("Sounds/ding");
+
+            selector = new Selector(content.Load<Texture2D>("charSelect/CharSelCart"),
+                                    content.Load<SoundEffect>("Sounds/squeak"),
+                                    ScreenManager.GlobalOptions.SOUND_ENABLE);
+            Mouse.WindowHandle = base.ScreenManager.Game.Window.Handle;
+        }
+        #endregion
+
+        #region Update and Draw
+
+        /// <summary>
+        /// Updates the state of the game. This method checks the GameScreen.IsActive
+        /// property, so the game will stop updating when the pause menu is active,
+        /// or if you tab away to a different application.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="otherScreenHasFocus"></param>
+        /// <param name="coveredByOtherScreen"></param>
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
+        {
+            Random random = new Random((int)gameTime.TotalGameTime.TotalSeconds);
+            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+
+            // Gradually fade in or out depending on whether we are covered by the pause screen.
+            if (coveredByOtherScreen)
+                pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
+            else
+                pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
+
+            if (IsActive)
+            {
+                //Increment timers
+                carTimer += gameTime.ElapsedGameTime.Milliseconds;
+
+                //Move cars
+                // Q'S NOTE: I think this is a better way to do this
+                for (int i = 0; i < carList.Count; i++)
+                {
+                    if (carList[i] != null)
+                    {
+                        carList[i].Update(gameTime);
+                        if (ScreenManager.GlobalOptions.SOUND_ENABLE)
+                        {
+                            carList[i].PlaySound();
+                        }
+                        if (carList[i].HasLeftTheScreen())
+                            carList.Remove(carList[i]);
+                    }
+                }
+
+                //Random chance of new car driving by
+                if (carTimer > random.Next(carDelay, carDelay * 2))   //This should happen at random intervals
+                {
+                    if (random.Next(100) <= 60)  //...60% chance/interval
+                    {
+                        //if (ScreenManager.GlobalOptions.SOUND_ENABLE)
+                        //    seDriveby.Play();
+                        int model = random.Next(0, 5);
+                        int wheel = random.Next(0, 4);
+                        //Add car, left->right or right->left
+                        if (random.Next(100) <= 50)
+                            carList.Add(new Car(txCar[model], txWheel[wheel], new Vector2(1080, 598 - txCar[model].Height),
+                                        new Vector2(-15, 0), model, seDriveby));
+                        else
+                            carList.Add(new Car(txCar[model], txWheel[wheel], new Vector2(0 - txCar[model].Width, 658 - txCar[model].Height),
+                                        new Vector2(15, 0), model, seDriveby));
+                    }
+                    carTimer = 0;     //reset timer
+                }
+                HandleInput();
+            }
+        }
+
+
+        /// <summary>
+        /// Lets the game respond to player input. Unlike the Update method,
+        /// this will only be called when the gameplay screen is active.
+        /// </summary>
+        public override void HandleInput()
+        {
+            if (input == null)
+            {
+                input = new InputHandler(GamePad.GetState(PlayerIndex.One), Keyboard.GetState(), Mouse.GetState());
+                input.Viewport = new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height);
+            }
+            else
+            {
+                Mouse.SetPosition((int)MathHelper.Clamp(Mouse.GetState().X, -10, ScreenManager.GraphicsDevice.Viewport.Width + 10), (int)MathHelper.Clamp(Mouse.GetState().Y, -20, ScreenManager.GraphicsDevice.Viewport.Height + 10));
+                input.Update(GamePad.GetState(PlayerIndex.One), Keyboard.GetState(), Mouse.GetState());
+            }
+            
+            // The game pauses either if the user presses the pause button, or if
+            // they unplug the active gamepad. This requires us to keep track of
+            // whether a gamepad was ever plugged in, because we don't want to pause
+            // on PC if they are playing with a keyboard and have no gamepad at all!
+            bool IsPaused = (input.BackPress || input.EscPress);
+
+            if (IsPaused)
+            {
+                input = null;
+                ScreenManager.AddScreen(new Backdrop(txBackground, new PauseMenuScreen()), ControllingPlayer);
+            }
+            else
+            {
+                if (input.DpadLeftPress || input.LStickLeft || input.LeftPress)
+                    selector.Move(Selector.direction.Left);
+                else if (input.DpadRightPress || input.LStickRight || input.RightPress)
+                    selector.Move(Selector.direction.Right);
+                else if (input.StartPress || input.APress || input.EnterPress)
+                {
+                    character Player = null;
+                    if ((Player = AVAILABLE_CHARACTERS.CHARACTERS[selector.character]) != null)
+                    {
+                        Player.hoboNumber = selector.character;
+                        //Gameplay screen begins
+                        if (ScreenManager.GlobalOptions.SOUND_ENABLE)
+                            seSelect.Play();
+                        ScreenManager.AddScreen(new GameplayScreen(Player), ControllingPlayer);
+                        //Character selection screen goes away
+                        ExitScreen();
+                    }
+                    else
+                        throw new ArgumentNullException("invalid char select");
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Draws the gameplay screen.
+        /// </summary>
+        public override void Draw(GameTime gameTime)
+        {
+            Color attribColor = Color.Bisque;
+            string[] attribs = new string[10] { "Alcohol Tolerance",
+                                                "Body Odor",
+                                                "Temperment",
+                                                "Courage",
+                                                "Speed",
+                                                "Clumsiness",
+                                                "Radial Blindness",
+                                                "Fuzz Blindness",
+                                                "Shaking",
+                                                "Carrying Capacity"};
+
+            // This game has a blue background. Why? Because!
+            ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 0, 0);
+            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(txBackground, new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width - 200,
+                ScreenManager.GraphicsDevice.Viewport.Height), Color.White);
+
+            for (int p = 0; p < 4; p++)
+            {
+                spriteBatch.Draw(txPoster, new Rectangle(54 + p * 308, 310, 76, 115), Color.White);
+                spriteBatch.Draw(txFace[p], new Rectangle(60 + p * 308, 317, 64, 71), Color.White);
+            }
+
+            selector.Draw(spriteBatch);
+            
+            //because I can't get the draw method to acknowledge a layer depth...
+            foreach (Car car in carList)
+            {
+                if (car.Velocity.X < 0)
+                    car.Draw(spriteBatch);
+            }
+            foreach (Car car in carList)
+            {
+                if (car.Velocity.X > 0)
+                    car.Draw(spriteBatch);
+            }
+
+            #region DRAW CHARACTER DATA PANEL
+            spriteBatch.Draw(txDataPanel, new Vector2(1080, 0), Color.White);
+            #endregion
+            #region DRAW FACE AND NAME
+            spriteBatch.Draw(txFace[selector.character], new Rectangle(1083, 3, 194, 253), Color.White);
+            spriteBatch.DrawString(fntPoster,
+                                   AVAILABLE_CHARACTERS.CHARACTERS[selector.character].DATA.name,
+                                   new Vector2(1180 - fntPoster.MeasureString(AVAILABLE_CHARACTERS.CHARACTERS[selector.character].DATA.name).X / 2, 200),
+                                   Color.Yellow);
+            #endregion
+            #region DRAW CHARACTER ATTRIBUTE DATA
+            for (int attr = 0; attr < 6; attr++)
+            {
+                spriteBatch.DrawString(fntAttribs, attribs[attr], new Vector2(1180 - fntAttribs.MeasureString(attribs[attr]).X / 2, 270 + attr * 42), attribColor);
+                spriteBatch.Draw(txPowerBar, new Rectangle(1095, 293 + attr * 42,
+                                                  (int)(txPowerBar.Width * AVAILABLE_CHARACTERS.CHARACTERS[selector.character].DATA.stat[attr]), txPowerBar.Height),
+                                             new Rectangle(0, 0,
+                                                  (int)(txPowerBar.Width * AVAILABLE_CHARACTERS.CHARACTERS[selector.character].DATA.stat[attr]), txPowerBar.Height),
+                                             Color.White);
+            }
+            for (int attr = 6; attr < 9; attr++)
+            {
+                spriteBatch.DrawString(fntAttribs, attribs[attr], new Vector2(1180 - fntAttribs.MeasureString(attribs[attr]).X / 2, 270 + attr * 42), attribColor);
+                spriteBatch.Draw(txPowerBar, new Rectangle(1095, 293 + attr * 42,
+                                                  (int)(txPowerBar.Width * AVAILABLE_CHARACTERS.CHARACTERS[selector.character].VISUALS.stat[attr - 6]), txPowerBar.Height),
+                                             new Rectangle(0, 0,
+                                                  (int)(txPowerBar.Width * AVAILABLE_CHARACTERS.CHARACTERS[selector.character].VISUALS.stat[attr - 6]), txPowerBar.Height),
+                                             Color.White);
+            }
+            spriteBatch.DrawString(fntAttribs, attribs[9], new Vector2(1180 - fntAttribs.MeasureString(attribs[9]).X / 2, 270 + (9) * 42), attribColor);
+            spriteBatch.Draw(txPowerBar, new Rectangle(1095, 293 + (9) * 42,
+                                              (int)(txPowerBar.Width * ((float)AVAILABLE_CHARACTERS.CHARACTERS[selector.character].carryingCapacity / 20)), txPowerBar.Height),
+                                         new Rectangle(0, 0,
+                                              (int)(txPowerBar.Width * ((float)AVAILABLE_CHARACTERS.CHARACTERS[selector.character].carryingCapacity / 20)), txPowerBar.Height),
+                                         Color.White);
+            #endregion
+
+            if (ScreenManager.GlobalOptions.DEBUG_TEXT && input != null)
+            {
+                spriteBatch.DrawString(ScreenManager.Font[1], "Mouse X: " + input.Mouse.X + "\nMouse Y: " + input.Mouse.Y, Vector2.Zero, Color.Black);
+                spriteBatch.Draw(mouseCursor, new Vector2(input.Mouse.X - mouseCursor.Width / 2, input.Mouse.Y - mouseCursor.Height / 2), Color.White);
+            }
+
+            spriteBatch.End();
+
+            // If the game is transitioning on or off, fade it out to black.
+            if (TransitionPosition > 0 || pauseAlpha > 0)
+            {
+                float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
+
+                ScreenManager.FadeBackBufferToBlack(alpha);
+            }
+        }
+        #endregion
+    }
+}

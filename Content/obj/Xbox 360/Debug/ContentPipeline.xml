@@ -1,0 +1,766 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>background.png</Source>
+      <Name>background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\background.xnb</Output>
+      <Time>2011-05-19T11:15:43.75455-07:00</Time>
+    </Item>
+    <Item>
+      <Source>blank.png</Source>
+      <Name>blank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\blank.xnb</Output>
+      <Time>2011-05-19T11:15:43.75655-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\Car1.png</Source>
+      <Name>charSelect\Car1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\Car1.xnb</Output>
+      <Time>2011-05-22T16:24:32.00025-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gradient.png</Source>
+      <Name>gradient</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gradient.xnb</Output>
+      <Time>2011-05-19T11:15:43.75155-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\CharSelPanel.png</Source>
+      <Name>charSelect\CharSelPanel</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\CharSelPanel.xnb</Output>
+      <Time>2011-05-19T11:15:43.68855-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\PowerBar.png</Source>
+      <Name>charSelect\PowerBar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\PowerBar.xnb</Output>
+      <Time>2011-05-19T11:15:43.70555-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\CharSelCart.png</Source>
+      <Name>charSelect\CharSelCart</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\CharSelCart.xnb</Output>
+      <Time>2011-05-19T11:15:43.72755-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Cursor.png</Source>
+      <Name>Cursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Cursor.xnb</Output>
+      <Time>2011-05-19T11:15:43.75055-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\bread.png</Source>
+      <Name>Shop\bread</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\bread.xnb</Output>
+      <Time>2011-05-19T11:15:33.86155-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\lottery ticket.png</Source>
+      <Name>Shop\lottery ticket</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\lottery ticket.xnb</Output>
+      <Time>2011-05-23T21:48:42.98185-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\soap.png</Source>
+      <Name>Shop\soap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\soap.xnb</Output>
+      <Time>2011-05-19T11:15:33.87255-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\trash bags.png</Source>
+      <Name>Shop\trash bags</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\trash bags.xnb</Output>
+      <Time>2011-05-19T11:15:33.86555-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\hand point.png</Source>
+      <Name>Shop\hand point</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\hand point.xnb</Output>
+      <Time>2011-05-19T11:15:33.91255-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\HUD\horizontalBar.png</Source>
+      <Name>gamePlayScreen\HUD\horizontalBar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\HUD\horizontalBar.xnb</Output>
+      <Time>2011-05-19T11:15:27.66955-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\HUD\verticalBar.png</Source>
+      <Name>gamePlayScreen\HUD\verticalBar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\HUD\verticalBar.xnb</Output>
+      <Time>2011-05-19T11:15:27.67255-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\gameplayHUD.png</Source>
+      <Name>gamePlayScreen\gameplayHUD</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\gameplayHUD.xnb</Output>
+      <Time>2011-05-19T11:15:30.39455-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\HUD\health_bar1.png</Source>
+      <Name>gamePlayScreen\HUD\health_bar1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\HUD\health_bar1.xnb</Output>
+      <Time>2011-05-19T11:15:27.67655-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\HUD\health_bar2.png</Source>
+      <Name>gamePlayScreen\HUD\health_bar2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\HUD\health_bar2.xnb</Output>
+      <Time>2011-05-19T11:15:27.67855-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\kindaoverpass.jpg</Source>
+      <Name>charSelect\kindaoverpass</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\kindaoverpass.xnb</Output>
+      <Time>2011-05-19T11:15:43.69255-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\HUD\health_bar3.png</Source>
+      <Name>gamePlayScreen\HUD\health_bar3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\HUD\health_bar3.xnb</Output>
+      <Time>2011-05-19T11:15:27.66755-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\HUD\corona.png</Source>
+      <Name>gamePlayScreen\HUD\corona</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\HUD\corona.xnb</Output>
+      <Time>2011-05-19T11:15:27.67455-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\hobo1.png</Source>
+      <Name>charSelect\hobo1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\hobo1.xnb</Output>
+      <Time>2011-05-19T11:15:43.69455-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\hobo2.png</Source>
+      <Name>charSelect\hobo2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\hobo2.xnb</Output>
+      <Time>2011-05-19T11:15:43.69655-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\hobo3.png</Source>
+      <Name>charSelect\hobo3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\hobo3.xnb</Output>
+      <Time>2011-05-19T11:15:43.69955-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\hobo4.png</Source>
+      <Name>charSelect\hobo4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\hobo4.xnb</Output>
+      <Time>2011-05-19T11:15:43.70255-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\car2.png</Source>
+      <Name>charSelect\car2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\car2.xnb</Output>
+      <Time>2011-05-22T16:24:32.00025-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\Car3.png</Source>
+      <Name>charSelect\Car3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\Car3.xnb</Output>
+      <Time>2011-05-19T11:15:43.71955-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\Car4.png</Source>
+      <Name>charSelect\Car4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\Car4.xnb</Output>
+      <Time>2011-05-23T21:50:24.26085-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\Car5.png</Source>
+      <Name>charSelect\Car5</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\Car5.xnb</Output>
+      <Time>2011-05-22T16:24:32.01025-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\Wheel1.png</Source>
+      <Name>charSelect\Wheel1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\Wheel1.xnb</Output>
+      <Time>2011-05-19T11:15:43.70855-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\Wheel2.png</Source>
+      <Name>charSelect\Wheel2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\Wheel2.xnb</Output>
+      <Time>2011-05-19T11:15:43.71355-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\Wheel3.png</Source>
+      <Name>charSelect\Wheel3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\Wheel3.xnb</Output>
+      <Time>2011-05-19T11:15:43.71755-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\Wheel4.png</Source>
+      <Name>charSelect\Wheel4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\Wheel4.xnb</Output>
+      <Time>2011-05-19T11:15:43.72155-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\Hands\hand-empty.png</Source>
+      <Name>gamePlayScreen\Hands\hand-empty</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\Hands\hand-empty.xnb</Output>
+      <Time>2011-05-19T11:15:30.37855-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\Hands\hand-plastic.png</Source>
+      <Name>gamePlayScreen\Hands\hand-plastic</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\Hands\hand-plastic.xnb</Output>
+      <Time>2011-05-19T11:15:30.38055-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\Hands\hand-can.png</Source>
+      <Name>gamePlayScreen\Hands\hand-can</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\Hands\hand-can.xnb</Output>
+      <Time>2011-05-19T11:15:30.38255-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\Hands\hand-glass.png</Source>
+      <Name>gamePlayScreen\Hands\hand-glass</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\Hands\hand-glass.xnb</Output>
+      <Time>2011-05-19T11:15:30.37555-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\Returnables\glass.png</Source>
+      <Name>gamePlayScreen\Returnables\glass</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\Returnables\glass.xnb</Output>
+      <Time>2011-05-19T11:15:28.89355-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\Returnables\can.png</Source>
+      <Name>gamePlayScreen\Returnables\can</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\Returnables\can.xnb</Output>
+      <Time>2011-05-19T11:15:28.89155-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\Returnables\plastic.png</Source>
+      <Name>gamePlayScreen\Returnables\plastic</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\Returnables\plastic.xnb</Output>
+      <Time>2011-05-19T11:15:28.88955-07:00</Time>
+    </Item>
+    <Item>
+      <Source>charSelect\poster.png</Source>
+      <Name>charSelect\poster</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\charSelect\poster.xnb</Output>
+      <Time>2011-05-19T11:15:43.70455-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\cans.png</Source>
+      <Name>gamePlayScreen\cans</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\cans.xnb</Output>
+      <Time>2011-05-19T11:15:30.39855-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\glass.png</Source>
+      <Name>gamePlayScreen\glass</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\glass.xnb</Output>
+      <Time>2011-05-19T11:15:30.40355-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\plastic.png</Source>
+      <Name>gamePlayScreen\plastic</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\plastic.xnb</Output>
+      <Time>2011-05-19T11:15:30.39055-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\store.jpg</Source>
+      <Name>Shop\store</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\store.xnb</Output>
+      <Time>2011-05-23T21:48:43.02985-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\harassDN.jpg</Source>
+      <Name>Shop\harassDN</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\harassDN.xnb</Output>
+      <Time>2011-05-23T21:48:42.96785-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\harassMO.jpg</Source>
+      <Name>Shop\harassMO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\harassMO.xnb</Output>
+      <Time>2011-05-23T21:48:43.00285-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\harassUP.jpg</Source>
+      <Name>Shop\harassUP</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\harassUP.xnb</Output>
+      <Time>2011-05-23T21:48:43.01885-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\crackersDN.jpg</Source>
+      <Name>Shop\crackersDN</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\crackersDN.xnb</Output>
+      <Time>2011-05-23T21:48:43.00485-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\crackersMO.jpg</Source>
+      <Name>Shop\crackersMO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\crackersMO.xnb</Output>
+      <Time>2011-05-23T21:48:43.02085-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\crackersUP.jpg</Source>
+      <Name>Shop\crackersUP</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\crackersUP.xnb</Output>
+      <Time>2011-05-23T21:48:42.96585-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\cartDN.jpg</Source>
+      <Name>Shop\cartDN</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\cartDN.xnb</Output>
+      <Time>2011-05-23T21:48:43.00085-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\cartMO.jpg</Source>
+      <Name>Shop\cartMO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\cartMO.xnb</Output>
+      <Time>2011-05-23T21:48:43.01585-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\cartUP.jpg</Source>
+      <Name>Shop\cartUP</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\cartUP.xnb</Output>
+      <Time>2011-05-23T21:48:43.03485-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\exitDN.png</Source>
+      <Name>Shop\exitDN</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\exitDN.xnb</Output>
+      <Time>2011-05-23T21:48:43.03685-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\exitMO.png</Source>
+      <Name>Shop\exitMO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\exitMO.xnb</Output>
+      <Time>2011-05-23T21:48:42.97885-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\exitUP.png</Source>
+      <Name>Shop\exitUP</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\exitUP.xnb</Output>
+      <Time>2011-05-23T21:48:43.01185-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\smokesDN.jpg</Source>
+      <Name>Shop\smokesDN</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\smokesDN.xnb</Output>
+      <Time>2011-05-23T21:48:43.01385-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\smokesMO.jpg</Source>
+      <Name>Shop\smokesMO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\smokesMO.xnb</Output>
+      <Time>2011-05-23T21:48:43.03285-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\smokesUP.jpg</Source>
+      <Name>Shop\smokesUP</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\smokesUP.xnb</Output>
+      <Time>2011-05-23T21:48:42.96985-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\alcoholDN.png</Source>
+      <Name>Shop\alcoholDN</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\alcoholDN.xnb</Output>
+      <Time>2011-05-23T21:48:42.97585-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\alcoholMO.png</Source>
+      <Name>Shop\alcoholMO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\alcoholMO.xnb</Output>
+      <Time>2011-05-23T21:48:43.00885-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\alcoholUP.png</Source>
+      <Name>Shop\alcoholUP</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\alcoholUP.xnb</Output>
+      <Time>2011-05-23T21:48:43.02385-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Shop\Receipt.jpg</Source>
+      <Name>Shop\Receipt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Shop\Receipt.xnb</Output>
+      <Time>2011-05-23T21:48:43.02685-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\shopButton.jpg</Source>
+      <Name>gamePlayScreen\shopButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\shopButton.xnb</Output>
+      <Time>2011-05-23T21:48:37.77685-07:00</Time>
+    </Item>
+    <Item>
+      <Source>gamePlayScreen\shopButtonMO.jpg</Source>
+      <Name>gamePlayScreen\shopButtonMO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\gamePlayScreen\shopButtonMO.xnb</Output>
+      <Time>2011-05-23T21:48:37.77485-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\squeak.wav</Source>
+      <Name>Sounds\squeak</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Sounds\squeak.xnb</Output>
+      <Time>2011-05-23T21:50:23.71585-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\glassBreak.wav</Source>
+      <Name>Sounds\glassBreak</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Sounds\glassBreak.xnb</Output>
+      <Time>2011-05-19T11:15:35.19555-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\glassDump.wav</Source>
+      <Name>Sounds\glassDump</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Sounds\glassDump.xnb</Output>
+      <Time>2011-05-19T11:15:35.19855-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\RVM-can.wav</Source>
+      <Name>Sounds\RVM-can</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Sounds\RVM-can.xnb</Output>
+      <Time>2011-05-19T11:15:35.18555-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\RVM-glass.wav</Source>
+      <Name>Sounds\RVM-glass</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Sounds\RVM-glass.xnb</Output>
+      <Time>2011-05-19T11:15:35.19355-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\RVM-plastic.wav</Source>
+      <Name>Sounds\RVM-plastic</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Sounds\RVM-plastic.xnb</Output>
+      <Time>2011-05-19T11:15:35.20155-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\RVM-ticket.wav</Source>
+      <Name>Sounds\RVM-ticket</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Sounds\RVM-ticket.xnb</Output>
+      <Time>2011-05-19T11:15:35.19055-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\driveby.wav</Source>
+      <Name>Sounds\driveby</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Sounds\driveby.xnb</Output>
+      <Time>2011-05-19T11:15:35.18855-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\ding.wav</Source>
+      <Name>Sounds\ding</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Sounds\ding.xnb</Output>
+      <Time>2011-05-23T21:50:23.92885-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\shopMusic.wav</Source>
+      <Name>Sounds\shopMusic</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Sounds\shopMusic.xnb</Output>
+      <Time>2011-05-23T21:50:23.92185-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\menufont.spritefont</Source>
+      <Name>Fonts\menufont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Fonts\menufont.xnb</Output>
+      <Time>2011-05-19T11:15:30.53655-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\gamefont.spritefont</Source>
+      <Name>Fonts\gamefont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Fonts\gamefont.xnb</Output>
+      <Time>2011-05-19T11:15:30.53755-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\posterfont.spritefont</Source>
+      <Name>Fonts\posterfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Fonts\posterfont.xnb</Output>
+      <Time>2011-05-19T11:15:30.53455-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\shopinfo.spritefont</Source>
+      <Name>Fonts\shopinfo</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\Fonts\shopinfo.xnb</Output>
+      <Time>2011-05-19T11:15:30.53555-07:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Xbox360</TargetPlatform>
+      <TargetProfile>HiDef</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>true</CompressContent>
+      <RootDirectory>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\Content\obj\Xbox 360\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\quinlan\Desktop\code\blind-bottle-return\trunk\bottleReturn\bin\Xbox 360\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2010-08-23T12:41:18-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2010-08-23T12:41:18-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2011-03-28T22:13:55.02475-07:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

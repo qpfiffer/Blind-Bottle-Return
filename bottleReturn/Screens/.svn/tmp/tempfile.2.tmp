@@ -1,0 +1,574 @@
+#region File Description
+//-----------------------------------------------------------------------------
+// GameplayScreen.cs
+//
+// Microsoft XNA Community Game Platform
+// Copyright (C) Microsoft Corporation. All rights reserved.
+//-----------------------------------------------------------------------------
+#endregion
+
+#region Using Statements
+using System;
+using System.Threading;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Sprites;
+using ButtonSprites;
+#endregion
+
+namespace bottleReturn
+{
+    /// <summary>
+    /// This screen implements the actual game logic. It is just a
+    /// placeholder to get the idea across: you'll probably want to
+    /// put some more interesting gameplay in here!
+    /// </summary>
+    public class GameplayScreen : GameScreen
+    {
+        #region sub-Classes
+        public class playerHand : Sprite
+        {
+            public bool isEmpty;
+
+            public playerHand(Texture2D texture, Vector2 pos):
+                base(texture, pos)
+            {
+                isEmpty = true;
+                this.mImage = texture;
+                this.mPosition.X = (int)(pos.X - (texture.Width / 2));
+                this.mPosition.Y = pos.Y;
+            }
+
+            public void Update(GameTime gameTime, Vector2 pos)
+            {
+                this.mPosition.X = (int)(pos.X - (this.mImage.Width / 2));
+                this.mPosition.Y = pos.Y;
+            }
+
+            public void switchType(Texture2D texture)
+            {
+                this.mImage = texture;
+                this.mPosition.X = (int)(mPosition.X - (texture.Width / 2));
+                this.mPosition.Y = mPosition.Y;
+            }
+        }
+        #endregion
+
+        #region Fields
+        gameplayHUD HUD;
+        blur BLUR;
+        ContentManager content;
+        SpriteFont gameFont;
+        returnablesLIST.Type currentType;
+        bottleBackground bottleCompoBG;
+        bottleBackground bottleCompoBG_fade;
+
+        Random random = new Random();
+
+        float pauseAlpha;
+            //Fields for Mouse, Cursor, and Hands
+        Texture2D blue;             //Debug-Texture
+        Color debugMouseAlpha;
+        Texture2D mouseCursor;
+        InputHandler input;
+        int snapshot;               // This is an update count for hand. Update every 20 'update' calls.
+        playerHand HAND;
+        playerHand HAND2;           //Hand for 2nd Blurred Image
+        Vector2 handPosition1;
+        Vector2 handPosition2;
+        Texture2D hand_empty;
+        Texture2D hand_glass;
+        Texture2D hand_plastic;
+        Texture2D hand_can;
+            
+            //Fields for Bottle Machines
+        double backgroundScale;
+        float hitboxScale;
+        float rotation;
+        float rotationRadians;
+        double machineFadeSpeed_X;
+        double machineFadeSpeed_Y;
+        Vector2 rotationDirection;
+        Vector2 fadeDirection;
+
+            //Fields for HUD
+        Texture2D HUDbackground1;
+        Texture2D HUDbackground2;
+        Texture2D powerBar1;
+        Texture2D powerBar2;
+        Texture2D powerBar3;
+        Texture2D smallBeer;
+
+        Button btnShop;
+        character Player;
+        #endregion
+
+        #region Initialization
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public GameplayScreen(character player)
+        {
+            TransitionOnTime = TimeSpan.FromSeconds(1.5);
+            TransitionOffTime = TimeSpan.FromSeconds(0.5);
+
+            input = new InputHandler(GamePad.GetState(PlayerIndex.One), Keyboard.GetState(), Mouse.GetState());
+            debugMouseAlpha = new Color(255, 255, 255, (byte)0.5);
+            Player = player;
+            rotation = 0;
+            rotationDirection = new Vector2(-1 , 0);
+            fadeDirection = new Vector2(1 , 1);
+            backgroundScale = 1.25;
+            hitboxScale = MathHelper.Clamp((1 - (Player.intoxicationLevel / 100)), 0.35f, 1.00f);
+            machineFadeSpeed_X = 1;
+            machineFadeSpeed_Y = 1;
+        }
+
+        /// <summary>
+        /// Load graphics content for the game.
+        /// </summary>
+        public override void LoadContent()
+        {
+            if (content == null)
+                content = new ContentManager(ScreenManager.Game.Services, "Content");
+
+            //Load Fonts
+            gameFont = ScreenManager.Font[(int)ScreenManager.fontStyle.game14B];
+
+            //Load Sounds
+
+
+            //Load Content for HUD
+            powerBar1 = content.Load<Texture2D>("gamePlayScreen/HUD/health_bar1");
+            powerBar2 = content.Load<Texture2D>("gamePlayScreen/HUD/health_bar2");
+            powerBar3 = content.Load<Texture2D>("gamePlayScreen/HUD/health_bar3");
+            smallBeer = content.Load<Texture2D>("gamePlayScreen/HUD/corona");
+            HUDbackground1 = content.Load<Texture2D>("gamePlayScreen/HUD/horizontalBar");
+            HUDbackground2 = content.Load<Texture2D>("gamePlayScreen/HUD/verticalBar");
+            HUD = new gameplayHUD(HUDbackground1, HUDbackground2, powerBar1, powerBar2, powerBar3, smallBeer,
+                        Player.face, gameFont, ScreenManager.GlobalOptions.SCREEN_WIDTH,
+                        ScreenManager.GlobalOptions.SCREEN_HEIGHT, Player);
+
+            //Load Content for Mouse, Cursor, and Hands
+            mouseCursor = content.Load<Texture2D>("cursor");
+            input.Viewport = new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height);
+                // Create a debug texture for the mouses hitbox.
+            blue = new Texture2D(ScreenManager.MyDevice, mouseCursor.Width, mouseCursor.Height, false, SurfaceFormat.Color);
+            Int32[] toSet = new Int32[mouseCursor.Width * mouseCursor.Height];
+            for (int i = 0; i < (mouseCursor.Width * mouseCursor.Height); i++)
+            {
+                // Cornflower blue.
+                toSet[i] = 0x6495ED;
+            }
+            blue.SetData<Int32>(toSet);
+            
+            hand_empty = content.Load<Texture2D>("gamePlayScreen/Hands/hand-empty");
+            hand_glass = content.Load<Texture2D>("gamePlayScreen/Hands/hand-glass");
+            hand_plastic = content.Load<Texture2D>("gamePlayScreen/Hands/hand-plastic");
+            hand_can = content.Load<Texture2D>("gamePlayScreen/Hands/hand-can");
+            handPosition1 = new Vector2(input.Mouse.X, input.Mouse.Y);
+            handPosition2 = new Vector2(input.Mouse.X, input.Mouse.Y);
+            HAND = new playerHand(hand_empty, handPosition1);
+            HAND2 = new playerHand(hand_empty, handPosition2);
+
+            //Load Content for BLUR Visuals
+            BLUR = new blur(1040, 580, new Vector2(0, 70), ScreenManager.GraphicsDevice,
+                    Player.VISUALS.stat[0], Player.VISUALS.stat[1]);
+
+            //Load Content for Machines
+            bottleCompoBG = new bottleBackground(3,
+                                new Vector2((int)(base.ScreenManager.GlobalOptions.SCREEN_WIDTH * backgroundScale),
+                                (int)(base.ScreenManager.GlobalOptions.SCREEN_HEIGHT * backgroundScale)));
+            bottleCompoBG.Load(this.content, ScreenManager.MyDevice, false);
+            bottleCompoBG_fade = new bottleBackground(bottleCompoBG);
+            bottleCompoBG_fade.Load(this.content, ScreenManager.MyDevice, true);
+
+            //Create button(s)
+            btnShop = new Button(new Vector2(1060, 675), content.Load<Texture2D>("gamePlayScreen/shopButton"), content.Load<Texture2D>("gamePlayScreen/shopButtonMO"), content.Load<Texture2D>("gamePlayScreen/shopButton"));
+            btnShop.Hide();
+
+            ScreenManager.Game.ResetElapsedTime();
+            Mouse.WindowHandle = base.ScreenManager.Game.Window.Handle;
+        }
+
+        /// <summary>
+        /// Unload graphics content used by the game.
+        /// </summary>
+        public override void UnloadContent()
+        {
+            content.Unload();
+        }
+        #endregion
+
+        #region Update and Draw
+        /// <summary>
+        /// Updates the state of the game. This method checks the GameScreen.IsActive
+        /// property, so the game will stop updating when the pause menu is active,
+        /// or if you tab away to a different application.
+        /// </summary>
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus,
+                                                       bool coveredByOtherScreen)
+        {
+            base.Update(gameTime, otherScreenHasFocus, false);
+
+            // Gradually fade in or out depending on whether we are covered by the pause screen.
+            if (coveredByOtherScreen)
+                pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
+            else
+                pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
+
+            if (IsActive)
+            {
+                // Scale the hitboxse according to how drunk you are:
+                hitboxScale = MathHelper.Clamp((1 - (Player.intoxicationLevel / 100)), 0.35f, 1.00f);
+                // Make sure the machines know how to draw themselves:
+                bottleCompoBG.Update(gameTime, this, hitboxScale, rotationRadians, Player);
+                bottleCompoBG.CheckCollisions(gameTime, this, Player, input, HAND);
+
+                Player.Update(gameTime);
+                HUD.Update(gameTime);
+                UpdateRotation(gameTime);
+
+                HandleInput();
+
+                UpdateHands(gameTime);
+
+                if (Player.INVENTORY.BOTTLES.Count == 0)
+                {
+                    //check for MouseHit to activate highlighted image
+                    if (input != null)
+                    {
+                        btnShop.MouseHit(input.Mouse);
+                    }
+                    btnShop.Show();
+                }
+                else
+                    btnShop.Hide();
+
+                if (btnShop.WasActivated)
+                {
+                    //add vouchers to total purse
+                    while (Player.VOUCHERS.Count > 0)
+                    {
+                        Player.cash += (decimal)Player.VOUCHERS[0].value;
+                        Player.VOUCHERS.Remove(Player.VOUCHERS[0]);
+                    }
+                    // Bring up shop screen
+                    ScreenManager.AddScreen(new ShopScreen(Player, machineFadeSpeed_X, machineFadeSpeed_Y), ControllingPlayer);
+                    this.ExitScreen();
+                }
+            }
+        }
+        /// <summary>
+        /// Updates the current rotational state of the bottle-room image,
+        /// as well as the double-image effect.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        void UpdateRotation(GameTime gameTime)
+        {
+            if (rotation > (Player.intoxicationLevel / 100))
+            {
+                rotationDirection.X *= -1;
+            }
+            if (rotation < -(Player.intoxicationLevel / 100))
+            {
+                rotationDirection.X *= -1;
+            }
+            rotation += .010f * (rotationDirection.X * (Player.intoxicationLevel / 100));
+
+            bottleCompoBG.incPos((int)(0.015 * rotationDirection.X * (Player.DATA.stat[5] * 100)), 0);
+            bottleCompoBG_fade.incPos((int)(0.015 * rotationDirection.X * (Player.DATA.stat[5] * 100)), 0);
+
+            rotationRadians = (float)(Math.PI / 30) * rotation;
+
+            #region FADE CONTROL FOR COMPOSITE BACKGROUND
+            if (bottleCompoBG_fade.BgRect.X > (int)(bottleCompoBG.BgRect.X + (1.25 * Player.intoxicationLevel)))
+            {
+                fadeDirection.X *= -1;
+            }
+            if (bottleCompoBG_fade.BgRect.X < (int)(bottleCompoBG.BgRect.X - (1.25 * Player.intoxicationLevel)))
+            {
+                fadeDirection.X *= -1;
+            }
+            if (bottleCompoBG_fade.BgRect.Y > (int)(bottleCompoBG.BgRect.Y + (0.60 * Player.intoxicationLevel)))
+            {
+                fadeDirection.Y *= -1;
+            }
+            if (bottleCompoBG_fade.BgRect.Y < (int)(bottleCompoBG.BgRect.Y - (0.60 * Player.intoxicationLevel)))
+            {
+                fadeDirection.Y *= -1;
+            }
+            #endregion
+            machineFadeSpeed_X = (Player.intoxicationLevel / 10) * fadeDirection.X * (1 - Player.DATA.stat[0]);
+            machineFadeSpeed_Y = (Player.intoxicationLevel / 10) * fadeDirection.Y * (1 - Player.DATA.stat[0]);
+
+            if (machineFadeSpeed_X > 6)
+                machineFadeSpeed_X = 6;
+            if (machineFadeSpeed_X < -6)
+                machineFadeSpeed_X = -6;
+            if (machineFadeSpeed_Y > 6)
+                machineFadeSpeed_Y = 6;
+            if (machineFadeSpeed_Y < -6)
+                machineFadeSpeed_Y = -6;
+
+            bottleCompoBG_fade.incPos((int)(0.90 * machineFadeSpeed_X), (int)(0.60 * machineFadeSpeed_Y));
+
+            BLUR.Update(gameTime, machineFadeSpeed_X, machineFadeSpeed_Y, Player.intoxicationLevel,
+                            Player.DATA.stat[0]);
+        }
+
+        /// <summary>
+        /// Lets the game respond to player input. Unlike the Update method,
+        /// this will only be called when the gameplay screen is active.
+        /// </summary>
+        public override void HandleInput()
+        {
+            if (input == null)
+            {
+                input = new InputHandler(GamePad.GetState(PlayerIndex.One), Keyboard.GetState(), Mouse.GetState());
+                input.Viewport = new Rectangle(0, 0, ScreenManager.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDevice.Viewport.Height);
+            }
+            else
+            {
+                Mouse.SetPosition((int)MathHelper.Clamp(Mouse.GetState().X, -10, ScreenManager.GraphicsDevice.Viewport.Width + 10), (int)MathHelper.Clamp(Mouse.GetState().Y, -20, ScreenManager.GraphicsDevice.Viewport.Height + 10));
+                input.Update(GamePad.GetState(PlayerIndex.One), Keyboard.GetState(), Mouse.GetState());
+            }
+
+            // The game pauses either if the user presses the pause button, or if
+            // they unplug the active gamepad. This requires us to keep track of
+            // whether a gamepad was ever plugged in, because we don't want to pause
+            // on PC if they are playing with a keyboard and have no gamepad at all!
+            bool IsPaused = (input.BackPress || input.StartPress || input.EscPress);
+
+            if (IsPaused)
+            {
+                input = null;
+                ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+            }
+            else if (input.TabPress || input.YPress)
+            {
+                btnShop.WasActivated = true;
+            }
+            else if (input.LeftMBDown)
+            {
+                btnShop.ClickDown(input.Mouse);
+            }
+            else if (input.LeftMBUp)
+            {
+                btnShop.ClickUp(input.Mouse);
+            }
+            else if (input.APress)
+            {
+                btnShop.ClickDown(input.Mouse);
+                btnShop.ClickUp(input.Mouse);
+            }
+            else if (input.SpacePress || input.LBPress)
+            {
+                Player.cash += 1.00m;
+            }
+            else
+            {
+                BLUR.setPos((int)(input.Mouse.X - (mouseCursor.Width / 2)), (int)(input.Mouse.Y - (mouseCursor.Height / 2)),
+                                machineFadeSpeed_X, machineFadeSpeed_Y);
+
+                #region BOTTLE-MACHINE AND HITBOX MOVEMENT
+                if (input.UpHold || input.Gamepad.DPad.Up == ButtonState.Pressed)
+                {
+                    bottleCompoBG.incPos(0, (int)(6 * Player.DATA.stat[4]));
+                    bottleCompoBG_fade.incPos(0, (int)(6 * Player.DATA.stat[4]));
+                }
+                if (input.DownHold || input.Gamepad.DPad.Down == ButtonState.Pressed)
+                {
+                    bottleCompoBG.incPos(0, -(int)(6 * Player.DATA.stat[4]));
+                    bottleCompoBG_fade.incPos(0, -(int)(6 * Player.DATA.stat[4]));
+                }
+                if (input.LeftHold || input.Gamepad.DPad.Left == ButtonState.Pressed)
+                {
+                    bottleCompoBG.incPos((int)(6 * Player.DATA.stat[4]), 0);
+                    bottleCompoBG_fade.incPos((int)(6 * Player.DATA.stat[4]), 0);
+                }
+                if (input.RightHold || input.Gamepad.DPad.Right == ButtonState.Pressed)
+                {
+                    bottleCompoBG.incPos(-(int)(6 * Player.DATA.stat[4]), 0);
+                    bottleCompoBG_fade.incPos(-(int)(6 * Player.DATA.stat[4]), 0);
+                }
+                #endregion
+
+                #region MACHINE BOUNDARIES
+                if (bottleCompoBG.BgRect.X > 0)
+                    bottleCompoBG.setPos(0, bottleCompoBG.BgRect.Y);
+                if (bottleCompoBG.BgRect.X < -844)
+                    bottleCompoBG.setPos(-844, bottleCompoBG.BgRect.Y);
+                if (bottleCompoBG.BgRect.Y > HUDbackground1.Height)
+                    bottleCompoBG.setPos(bottleCompoBG.BgRect.X, HUDbackground1.Height);
+                if (bottleCompoBG.BgRect.Y < -HUDbackground1.Height)
+                    bottleCompoBG.setPos(bottleCompoBG.BgRect.X, -HUDbackground1.Height);
+
+                if (bottleCompoBG_fade.BgRect.X > 0)
+                    bottleCompoBG_fade.setPos(0, bottleCompoBG_fade.BgRect.Y);
+                if (bottleCompoBG_fade.BgRect.X < -844)
+                    bottleCompoBG_fade.setPos(-844, bottleCompoBG_fade.BgRect.Y);
+                if (bottleCompoBG_fade.BgRect.Y > HUDbackground1.Height)
+                    bottleCompoBG_fade.setPos(bottleCompoBG_fade.BgRect.X, HUDbackground1.Height);
+                if (bottleCompoBG_fade.BgRect.Y < -HUDbackground1.Height)
+                    bottleCompoBG_fade.setPos(bottleCompoBG_fade.BgRect.X, -HUDbackground1.Height);
+                #endregion
+            }
+        }
+
+        /// <summary>
+        /// Updates the Texture and Position of the Hand Images
+        /// </summary>
+        /// <param name="gameTime"></param>
+        void UpdateHands(GameTime gameTime)
+        {
+            if (HAND.isEmpty)
+            {
+                HAND.switchType(hand_empty);
+                HAND2.switchType(hand_empty);
+                if (input != null)
+                {
+                    if ((input.RightMBDown || input.BPress) && Player.INVENTORY.BOTTLES.Count != 0)
+                    {
+                        HAND.isEmpty = false;
+                        currentType = Player.INVENTORY.BOTTLES[0].type;
+                        switch (currentType)
+                        {
+                            case returnablesLIST.Type.glass:
+                                HAND.switchType(hand_glass);
+                                HAND2.switchType(hand_glass);
+                                break;
+                            case returnablesLIST.Type.plastic:
+                                HAND.switchType(hand_plastic);
+                                HAND2.switchType(hand_plastic);
+                                break;
+                            case returnablesLIST.Type.can:
+                                HAND.switchType(hand_can);
+                                HAND2.switchType(hand_can);
+                                break;
+                        }
+                    }
+                }
+            }
+            //Update Shaking Below
+            #region SHAKING
+            Vector2 Direction = new Vector2(1, 1);
+
+            if (snapshot != 5)
+            {
+                snapshot++;
+            } 
+            else 
+            {
+                snapshot = 0;
+                if (input != null)
+                    handPosition1 = input.Mouse;
+                handPosition2 = BLUR.BlurRect2q4;
+            }
+
+            handPosition1.X += (float)(Direction.X * 10 * Player.VISUALS.stat[2] * (Player.intoxicationLevel / 100));
+            handPosition1.Y += (float)(Direction.Y * 10 * Player.VISUALS.stat[2] * (Player.intoxicationLevel / 100));
+
+            handPosition2.X += (float)(Direction.X * 10 * Player.VISUALS.stat[2] * (Player.intoxicationLevel / 100));
+            handPosition2.Y += (float)(Direction.Y * 10 * Player.VISUALS.stat[2] * (Player.intoxicationLevel / 100));
+            #endregion
+
+            #region CONTROL OUTER BOUNDS OF HAND
+            if (handPosition1.X < 0)
+                handPosition1.X = 0;
+            if (handPosition1.X > ScreenManager.GlobalOptions.SCREEN_WIDTH - HUDbackground2.Width)
+                handPosition1.X = ScreenManager.GlobalOptions.SCREEN_WIDTH - HUDbackground2.Width;
+            if (handPosition1.Y < HUDbackground1.Height)
+                handPosition1.Y = HUDbackground1.Height;
+            if (handPosition1.Y > ScreenManager.GlobalOptions.SCREEN_WIDTH - HUDbackground1.Height)
+                handPosition1.Y = ScreenManager.GlobalOptions.SCREEN_WIDTH - HUDbackground1.Height;
+            #endregion
+
+            HAND.Update(gameTime, handPosition1);
+            HAND2.Update(gameTime, handPosition2);
+        }
+
+        /// <summary>
+        /// Draws the gameplay screen.
+        /// </summary>
+        public override void Draw(GameTime gameTime)
+        {
+            // This game has a blue background - NOT ANYMORE!!
+            ScreenManager.GraphicsDevice.Clear(new Color(50, 50, 50, 50));
+
+            // Our player and enemy are both actually just text strings.
+            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+
+            spriteBatch.Begin();
+
+            if (ScreenManager.GlobalOptions.DEBUG_TEXT)
+                bottleCompoBG.Draw(spriteBatch, rotationRadians, true);
+            else
+                bottleCompoBG.Draw(spriteBatch, rotationRadians, false);
+
+            bottleCompoBG_fade.DrawFade(spriteBatch, rotationRadians);
+
+            bottleCompoBG.DrawDrops(spriteBatch);
+
+            HAND.Draw(spriteBatch);
+            HAND2.Draw(spriteBatch);
+
+            BLUR.Draw(spriteBatch);
+            HUD.Draw(spriteBatch);
+
+            btnShop.Draw(spriteBatch);
+
+            if (ScreenManager.GlobalOptions.DEBUG_TEXT)
+            {
+                if (input != null)
+                {
+                    spriteBatch.DrawString(gameFont, "Mouse X: " + input.Mouse.X + "\nMouse Y: " + input.Mouse.Y, Vector2.Zero, Color.White);
+                    if (input.MouseIsInside(ScreenManager.GlobalOptions.SCREEN_WIDTH, ScreenManager.GlobalOptions.SCREEN_HEIGHT))
+                        spriteBatch.Draw(blue, input.Mouse, debugMouseAlpha);
+                }
+
+                spriteBatch.DrawString(gameFont, "Main - X: " + bottleCompoBG.BgRect.X + "\nMain - Y: " + bottleCompoBG.BgRect.Y +
+                            "\nMachOnePos X: " + bottleCompoBG.MachineOnePos.X + "\nMachOnePos Y: " + bottleCompoBG.MachineOnePos.Y,
+                            new Vector2(1048, 612), Color.White);
+                spriteBatch.DrawString(gameFont, "Hand-X: " + handPosition1.X + "\nHand-Y: " + handPosition1.Y,
+                            new Vector2(1048, 564), Color.White);
+
+                spriteBatch.DrawString(gameFont, "Pan 1: " + bottleCompoBG.getSoundPanValues(0).ToString(),
+                                                new Vector2(1048, 400), Color.White);
+                spriteBatch.DrawString(gameFont, "Pan 2: " + bottleCompoBG.getSoundPanValues(1).ToString(),
+                                                new Vector2(1048, 422), Color.White);
+                spriteBatch.DrawString(gameFont, "Pan 3: " + bottleCompoBG.getSoundPanValues(2).ToString(),
+                                                new Vector2(1048, 444), Color.White);
+                spriteBatch.DrawString(gameFont, "CurBType: " + Player.INVENTORY.BOTTLES[0].type,
+                                                new Vector2(1048, 466), Color.White);
+            }
+            else
+            {
+                //Draw a normal mouse during gameplay, unless debug is on.
+                if (input != null)
+                {
+                    if (input.MouseIsInside(ScreenManager.GlobalOptions.SCREEN_WIDTH, ScreenManager.GlobalOptions.SCREEN_HEIGHT))
+                    {
+                        spriteBatch.Draw(mouseCursor, input.Mouse, Color.White);
+                    }
+                }
+            }
+
+            spriteBatch.End();
+
+            // If the game is transitioning on or off, fade it out to black.
+            if (TransitionPosition > 0 || pauseAlpha > 0)
+            {
+                float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
+
+                ScreenManager.FadeBackBufferToBlack(alpha);
+            }
+        }
+        #endregion
+    }
+}

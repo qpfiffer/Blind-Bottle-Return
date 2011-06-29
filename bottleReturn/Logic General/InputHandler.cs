@@ -1,0 +1,202 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+
+namespace bottleReturn
+{
+    public class InputHandler
+    {
+        private GamePadState previousGamepad;
+        private KeyboardState previousKeys;
+        private MouseState previousMouse;
+
+        private Vector2 softwareMouse;
+        private Rectangle viewport;
+
+        public GamePadState Gamepad
+        {
+            get { return previousGamepad; }
+        }
+
+        public Vector2 Mouse
+        {
+            get { return softwareMouse; }
+        }
+
+        public Rectangle Viewport
+        {
+            set { viewport = value; }
+        }
+
+
+        //Gamepad
+        public bool DpadLeftPress = false;
+        public bool DpadLeftRelease = false;
+        public bool DpadRightPress = false;
+        public bool DpadRightRelease = false;
+        public bool DpadUpPress = false;
+        public bool DpadUpRelease = false;
+        public bool DpadDownPress = false;
+        public bool DpadDownRelease = false;
+
+        public bool LStickLeft = false;
+        public bool LStickRight = false;
+
+        public bool BackPress = false;
+        public bool BackRelease = false;
+        public bool StartPress = false;
+        public bool StartRelease = false;
+        public bool APress = false;
+        public bool ARelease = false;
+        public bool YPress = false;
+        public bool YRelease = false;
+        public bool BPress = false;
+        public bool BRelease = false;
+        public bool XPress = false;
+        public bool XRelease = false;
+
+        public bool LTPress = false;
+        public bool LTRelease = false;
+        public bool RTPress = false;
+        public bool RTRelease = false;
+        public bool LBPress = false;
+        public bool LBRelease = false;
+        public bool RBPress = false;
+        public bool RBRelease = false;
+
+        //Keyboard
+        public bool EscPress = false;
+        public bool TabPress = false;
+        public bool EnterPress = false;
+        public bool SpacePress = false;
+        public bool UpPress = false;
+        public bool DownPress = false;
+        public bool LeftPress = false;
+        public bool RightPress = false;
+        public bool UpHold = false;
+        public bool DownHold = false;
+        public bool LeftHold = false;
+        public bool RightHold = false;
+
+        //Mouse
+        public bool LeftMBDown = false;
+        public bool LeftMBUp = false;
+        public bool RightMBDown = false;
+        public bool RightMBUp = false;
+
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="gamepad">Initial GamePadState</param>
+        /// <param name="mouse">Initial MouseState</param>
+        /// <param name="keys">Initial KeyboardState</param>
+        public InputHandler(GamePadState gamepad, KeyboardState keys, MouseState mouse)
+        {
+            previousGamepad = gamepad;
+            previousKeys = keys;
+            previousMouse = mouse;
+            softwareMouse.X = mouse.X;
+            softwareMouse.Y = mouse.Y;
+        }
+
+
+        public bool MouseIsInside(int width, int height)
+        {
+            return (softwareMouse.X > 0 && softwareMouse.X < width
+                    && softwareMouse.Y > 0 && softwareMouse.Y < height);
+        }
+        public bool MouseIsInside(int left, int top, int right, int bottom)
+        {
+            return (softwareMouse.X > left && softwareMouse.X < right
+                    && softwareMouse.Y > top && softwareMouse.Y < bottom);
+        }
+        public bool MouseIsInside(Rectangle rect)
+        {
+            return (softwareMouse.X > rect.Left && softwareMouse.X < rect.Right
+                    && softwareMouse.Y > rect.Top && softwareMouse.Y < rect.Bottom);
+        }
+
+        public void Update(GamePadState currentGamepad, KeyboardState currentKeys, MouseState currentMouse)
+        {
+            //Gamepad
+            DpadLeftPress = (previousGamepad.DPad.Left == ButtonState.Released && currentGamepad.DPad.Left == ButtonState.Pressed);
+            DpadLeftRelease = (previousGamepad.DPad.Left == ButtonState.Pressed && currentGamepad.DPad.Left == ButtonState.Released);
+
+            DpadRightPress = (previousGamepad.DPad.Right == ButtonState.Released && currentGamepad.DPad.Right == ButtonState.Pressed);
+            DpadRightRelease = (previousGamepad.DPad.Right == ButtonState.Pressed && currentGamepad.DPad.Right == ButtonState.Released);
+
+            DpadUpPress = (previousGamepad.DPad.Up == ButtonState.Released && currentGamepad.DPad.Up == ButtonState.Pressed);
+            DpadUpRelease = (previousGamepad.DPad.Up == ButtonState.Pressed && currentGamepad.DPad.Up == ButtonState.Released);
+
+            DpadDownPress = (previousGamepad.DPad.Down == ButtonState.Released && currentGamepad.DPad.Down == ButtonState.Pressed);
+            DpadDownRelease = (previousGamepad.DPad.Down == ButtonState.Pressed && currentGamepad.DPad.Down == ButtonState.Released);
+
+            LStickLeft = (previousGamepad.ThumbSticks.Left.X >= -.5 && currentGamepad.ThumbSticks.Left.X < -.5);
+            LStickRight = (previousGamepad.ThumbSticks.Left.X <= .5 && currentGamepad.ThumbSticks.Left.X > .5);
+
+            BackPress = (previousGamepad.Buttons.Back == ButtonState.Released && currentGamepad.Buttons.Back == ButtonState.Pressed);
+            BackRelease = (previousGamepad.Buttons.Back == ButtonState.Pressed && currentGamepad.Buttons.Back == ButtonState.Released);
+
+            StartPress = (previousGamepad.Buttons.Start == ButtonState.Released && currentGamepad.Buttons.Start == ButtonState.Pressed);
+            StartRelease = (previousGamepad.Buttons.Start == ButtonState.Pressed && currentGamepad.Buttons.Start == ButtonState.Released);
+
+            APress = (previousGamepad.Buttons.A == ButtonState.Released && currentGamepad.Buttons.A == ButtonState.Pressed);
+            ARelease = (previousGamepad.Buttons.A == ButtonState.Pressed && currentGamepad.Buttons.A == ButtonState.Released);
+
+            YPress = (previousGamepad.Buttons.Y == ButtonState.Released && currentGamepad.Buttons.Y == ButtonState.Pressed);
+            YRelease = (previousGamepad.Buttons.Y == ButtonState.Pressed && currentGamepad.Buttons.Y == ButtonState.Released);
+
+            BPress = (previousGamepad.Buttons.B == ButtonState.Released && currentGamepad.Buttons.B == ButtonState.Pressed);
+            BRelease = (previousGamepad.Buttons.B == ButtonState.Pressed && currentGamepad.Buttons.B == ButtonState.Released);
+
+            XPress = (previousGamepad.Buttons.X == ButtonState.Released && currentGamepad.Buttons.X == ButtonState.Pressed);
+            XRelease = (previousGamepad.Buttons.X == ButtonState.Pressed && currentGamepad.Buttons.X == ButtonState.Released);
+
+            LTPress = (previousGamepad.Triggers.Left < .5 && currentGamepad.Triggers.Left > .5);
+            LTRelease = (previousGamepad.Triggers.Left > .5 && currentGamepad.Triggers.Left < .5);
+
+            RTPress = (previousGamepad.Triggers.Right < .5 && currentGamepad.Triggers.Right > .5);
+            RTRelease = (previousGamepad.Triggers.Right > .5 && currentGamepad.Triggers.Right < .5);
+
+            LBPress = (previousGamepad.Buttons.LeftShoulder == ButtonState.Released && currentGamepad.Buttons.LeftShoulder == ButtonState.Pressed);
+            LBRelease = (previousGamepad.Buttons.LeftShoulder == ButtonState.Pressed && currentGamepad.Buttons.LeftShoulder == ButtonState.Released);
+
+            RBPress = (previousGamepad.Buttons.RightShoulder == ButtonState.Released && currentGamepad.Buttons.RightShoulder == ButtonState.Pressed);
+            RBRelease = (previousGamepad.Buttons.RightShoulder == ButtonState.Pressed && currentGamepad.Buttons.RightShoulder == ButtonState.Released);
+
+            //Keyboard
+            EscPress = (previousKeys.IsKeyUp(Keys.Escape) && currentKeys.IsKeyDown(Keys.Escape));
+            TabPress = (previousKeys.IsKeyUp(Keys.Tab) && currentKeys.IsKeyDown(Keys.Tab));
+            EnterPress = (previousKeys.IsKeyUp(Keys.Enter) && currentKeys.IsKeyDown(Keys.Enter));
+            SpacePress = (previousKeys.IsKeyUp(Keys.Space) && currentKeys.IsKeyDown(Keys.Space));
+            UpPress = (previousKeys.IsKeyUp(Keys.Up) && currentKeys.IsKeyDown(Keys.Up));
+            DownPress = (previousKeys.IsKeyUp(Keys.Down) && currentKeys.IsKeyDown(Keys.Down));
+            LeftPress = (previousKeys.IsKeyUp(Keys.Left) && currentKeys.IsKeyDown(Keys.Left));
+            RightPress = (previousKeys.IsKeyUp(Keys.Right) && currentKeys.IsKeyDown(Keys.Right));
+            UpHold = (previousKeys.IsKeyDown(Keys.Up) && currentKeys.IsKeyDown(Keys.Up));
+            DownHold = (previousKeys.IsKeyDown(Keys.Down) && currentKeys.IsKeyDown(Keys.Down));
+            LeftHold = (previousKeys.IsKeyDown(Keys.Left) && currentKeys.IsKeyDown(Keys.Left));
+            RightHold = (previousKeys.IsKeyDown(Keys.Right) && currentKeys.IsKeyDown(Keys.Right));
+
+            //Mouse
+            LeftMBDown = (previousMouse.LeftButton == ButtonState.Released && currentMouse.LeftButton == ButtonState.Pressed);
+            LeftMBUp = (previousMouse.LeftButton == ButtonState.Pressed && currentMouse.LeftButton == ButtonState.Released);
+            RightMBDown = (previousMouse.RightButton == ButtonState.Released && currentMouse.RightButton == ButtonState.Pressed);
+            RightMBUp = (previousMouse.RightButton == ButtonState.Pressed && currentMouse.RightButton == ButtonState.Released);
+
+
+            softwareMouse.X += (currentGamepad.ThumbSticks.Right.X * 8) + currentMouse.X - previousMouse.X;
+            softwareMouse.X = MathHelper.Clamp(softwareMouse.X, viewport.Left, viewport.Right);
+            softwareMouse.Y += (currentGamepad.ThumbSticks.Right.Y * -8) + currentMouse.Y - previousMouse.Y;
+            softwareMouse.Y = MathHelper.Clamp(softwareMouse.Y, viewport.Top, viewport.Bottom);
+
+            previousGamepad = currentGamepad;
+            previousKeys = currentKeys;
+            previousMouse = currentMouse;
+        }
+    }
+}
